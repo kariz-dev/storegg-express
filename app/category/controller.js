@@ -7,13 +7,13 @@ module.exports = {
 
       res.render("admin/category/view_category", {
         title: "Category | Store GG",
-        category
+        category,
       });
     } catch (err) {
       console.log(err);
     }
   },
-  
+
   viewCreate: async (req, res) => {
     try {
       res.render("admin/category/create");
@@ -30,7 +30,37 @@ module.exports = {
       await category.save();
 
       res.redirect("/category");
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  viewEdit: async (req, res) => {
+    try {
+      const { id } = req.params;
 
+      const category = await Category.findOne({ _id: id });
+
+      res.render("admin/category/edit", {
+        category,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
+  actionEdit: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { name } = req.body;
+
+      await Category.findOneAndUpdate(
+        {
+          _id: id,
+        },
+        { name }
+      );
+
+      res.redirect("/category");
     } catch (err) {
       console.log(err);
     }
