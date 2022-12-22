@@ -3,8 +3,11 @@ const Category = require("./model");
 module.exports = {
   index: async (req, res) => {
     try {
+      const category = await Category.find();
+
       res.render("admin/category/view_category", {
         title: "Category | Store GG",
+        category
       });
     } catch (err) {
       console.log(err);
