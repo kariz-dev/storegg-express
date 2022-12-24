@@ -12,7 +12,7 @@ module.exports = {
       const alertStatus = req.flash("alertStatus");
 
       const alert = { message: alertMessage, status: alertStatus };
-      const voucher = await Voucher.find();
+      const voucher = await Voucher.find().populate('category').populate('nominals');
 
       res.render("admin/voucher/view_voucher", {
         title: "Voucher | Store GG",
@@ -101,13 +101,6 @@ module.exports = {
         res.redirect("/voucher");
       }
 
-      // let nominal = await Nominal({ name, category, nominals });
-      // await nominal.save();
-
-      // req.flash("alertMessage", "Berhasil tambah voucher");
-      // req.flash("alertStatus", "danger");
-
-      // res.redirect("/voucher");
     } catch (err) {
       req.flash("alertMessage", `${err.message}`);
       req.flash("alertStatus", "danger");
