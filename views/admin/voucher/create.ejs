@@ -138,8 +138,7 @@
 
       reader.onload = function (e) {
         $("#preview").attr("src", e.target.result);
-        $("#preview").attr("width", "150px");
-        $("#preview").attr("height", "150px");
+        $("#preview").attr("height", "100px");
       };
 
       reader.readAsDataURL(input.files[0]);
