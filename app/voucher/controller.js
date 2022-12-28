@@ -133,71 +133,127 @@ module.exports = {
 
   actionEdit: async (req, res) => {
     try {
-      const { id } = req.params
-      const { name, category, nominals } = req.body
+      const { id } = req.params;
+      const { name, category, nominals } = req.body;
 
-      if(req.file){
-        let tmp_path= req.file.path;
-        let originaExt = req.file.originalname.split('.')[req.file.originalname.split('.').length - 1];
-        let filename = req.file.filename + '.' + originaExt;
-        let target_path = path.resolve(config.rootPath, `public/uploads/${filename}`)
+      if (req.file) {
+        let tmp_path = req.file.path;
+        let originaExt =
+          req.file.originalname.split(".")[
+            req.file.originalname.split(".").length - 1
+          ];
+        let filename = req.file.filename + "." + originaExt;
+        let target_path = path.resolve(
+          config.rootPath,
+          `public/uploads/${filename}`
+        );
 
-        const src = fs.createReadStream(tmp_path)
-        const dest = fs.createWriteStream(target_path)
+        const src = fs.createReadStream(tmp_path);
+        const dest = fs.createWriteStream(target_path);
 
-        src.pipe(dest)
+        src.pipe(dest);
 
-        src.on('end', async ()=>{
+        src.on("end", async () => {
           try {
-
-            const voucher = await Voucher.findOne({_id: id})
+            const voucher = await Voucher.findOne({ _id: id });
 
             let currentImage = `${config.rootPath}/public/uploads/${voucher.thumbnail}`;
-            if(fs.existsSync(currentImage)){
-              fs.unlinkSync(currentImage)
+            if (fs.existsSync(currentImage)) {
+              fs.unlinkSync(currentImage);
             }
 
-            await Voucher.findOneAndUpdate({
-              _id : id
-            },{
-              name,
-              category,
-              nominals,
-              thumbnail: filename
-            })
-            
+            await Voucher.findOneAndUpdate(
+              {
+                _id: id,
+              },
+              {
+                name,
+                category,
+                nominals,
+                thumbnail: filename,
+              }
+            );
 
-            req.flash('alertMessage', "Berhasil ubah voucher")
-            req.flash('alertStatus', "success")
-      
-            res.redirect('/voucher')
-            
+            req.flash("alertMessage", "Berhasil ubah voucher");
+            req.flash("alertStatus", "success");
+
+            res.redirect("/voucher");
           } catch (err) {
-            req.flash('alertMessage', `${err.message}`)
-            req.flash('alertStatus', 'danger')
-            res.redirect('/voucher')
+            req.flash("alertMessage", `${err.message}`);
+            req.flash("alertStatus", "danger");
+            res.redirect("/voucher");
           }
-        })
-      }else{
-        await Voucher.findOneAndUpdate({
-          _id : id
-        },{
-          name,
-          category,
-          nominals,
-        })
-        
-        req.flash('alertMessage', "Berhasil ubah voucher")
-        req.flash('alertStatus', "success")
-  
-        res.redirect('/voucher')
-      }
+        });
+      } else {
+        await Voucher.findOneAndUpdate(
+          {
+            _id: id,
+          },
+          {
+            name,
+            category,
+            nominals,
+          }
+        );
 
+        req.flash("alertMessage", "Berhasil ubah voucher");
+        req.flash("alertStatus", "success");
+
+        res.redirect("/voucher");
+      }
     } catch (err) {
-      req.flash('alertMessage', `${err.message}`)
-      req.flash('alertStatus', 'danger')
-      res.redirect('/nominal')
+      req.flash("alertMessage", `${err.message}`);
+      req.flash("alertStatus", "danger");
+      res.redirect("/nominal");
     }
   },
 
+  actionDelete: async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const voucher = await Voucher.findOneAndRemove({
+        _id: id,
+      });
+
+      let currentImage = `${config.rootPath}/public/uploads/${voucher.thumbnial}`;
+      if (fs.existsSync(currentImage)) {
+        fs.unlinkSync(currentImage);
+      }
+
+      req.flash("alertMessage", "Berhasil hapus voucher");
+      req.flash("alertStatus", "success");
+
+      res.redirect("/voucher");
+    } catch (err) {
+      req.flash("alertMessage", `${err.message}`);
+      req.flash("alertStatus", "danger");
+      res.redirect("/voucher");
+    }
+  },
+
+  actionStatus: async (req, res) => {
+    try {
+      const { id } = req.params;
+      let voucher = await Voucher.findOne({ _id: id });
+
+      let status = voucher.status === "Y" ? "N" : "Y";
+
+      voucher = await Voucher.findOneAndUpdate(
+        {
+          _id: id,
+        },
+        { status }
+      );
+
+      req.flash("alertMessage", "Berhasil ubah status");
+      req.flash("alertStatus", "success");
+
+      res.redirect("/voucher");
+    } catch (err) {
+      req.flash("alertMessage", `${err.message}`);
+      req.flash("alertStatus", "danger");
+      res.redirect("/voucher");
+    }
+  },
 };
