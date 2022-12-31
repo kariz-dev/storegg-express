@@ -62,4 +62,9 @@ module.exports = {
       res.redirect("/");
     }
   },
+
+  actonLogOut: (req, res) => {
+    req.session.destroy();
+    res.redirect("/");
+  },
 };

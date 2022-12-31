@@ -17,6 +17,7 @@ module.exports = {
         .populate("nominals");
 
       res.render("admin/voucher/view_voucher", {
+        name: req.session.user.name,
         title: "Voucher | Store GG",
         voucher,
         alert,
@@ -34,6 +35,8 @@ module.exports = {
       const nominal = await Nominal.find();
 
       res.render("admin/voucher/create", {
+        name: req.session.user.name,
+        title: "Tambah Voucher | Store GG",
         category,
         nominal,
       });
@@ -120,6 +123,8 @@ module.exports = {
         .populate("nominals");
 
       res.render("admin/voucher/edit", {
+        name: req.session.user.name,
+        title: "Ubah Voucher | Store GG",
         voucher,
         nominal,
         category,

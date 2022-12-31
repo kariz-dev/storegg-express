@@ -10,6 +10,7 @@ module.exports = {
       const bank = await Bank.find();
 
       res.render("admin/bank/view_bank", {
+        name: req.session.user.name,
         title: "Bank | Store GG",
         bank,
         alert,
@@ -23,7 +24,10 @@ module.exports = {
 
   viewCreate: async (req, res) => {
     try {
-      res.render("admin/bank/create");
+      res.render("admin/bank/create", {
+        name: req.session.user.name,
+        title: "Tambah bank | Store GG",
+      });
     } catch (err) {
       req.flash("alertMessage", `${err.message}`);
       req.flash("alertStatus", "danger");
@@ -56,6 +60,8 @@ module.exports = {
       const bank = await Bank.findOne({ _id: id });
 
       res.render("admin/bank/edit", {
+        name: req.session.user.name,
+        title: "Ubah bank | Store GG",
         bank,
       });
     } catch (err) {

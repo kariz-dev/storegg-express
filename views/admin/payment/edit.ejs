@@ -1,6 +1,6 @@
-<%- include('../../partials/header.ejs') %>
-<%- include('../../partials/navbar.ejs') %>
-<%- include('../../partials/sidebar.ejs') %>
+<%- include('../../partials/header.ejs') %> <%-
+include('../../partials/navbar.ejs') %> <%-
+include('../../partials/sidebar.ejs') %>
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
@@ -42,6 +42,7 @@
                       <div class="form-group">
                         <label for="name">Tipe</label>
                         <input
+                          value="<%= payment.type %>"
                           type="string"
                           name="type"
                           class="form-control"
@@ -61,14 +62,13 @@
                             name="banks"
                             required
                           >
-                            <option disabled>Pilih No Rekening</option>
+                            <option selected="selected" disabled>
+                              Pilih No Rekening
+                            </option>
                             <% banks.forEach(bank => { %>
-                            <option value="<%= bank._id %>"
-                              <% if(bank._id.toString() === payment?.bank?._id.toString()) { %>
-                                selected
-                              <% } %>
-                            >
-                              <%= bank.name %> (<%= bank.bankName %> - <%= bank.noRekening %>)
+                            <option value="<%= bank._id %>">
+                              <%= bank.name %> (<%= bank.bankName %> - <%=
+                              bank.noRekening %>)
                             </option>
                             <% }) %>
                           </select>
@@ -96,5 +96,5 @@
   <!-- /.content -->
 </div>
 
-<%- include('../../partials/footer.ejs') %> 
-<%- include('../../partials/js.ejs') %>
+<%- include('../../partials/footer.ejs') %> <%- include('../../partials/js.ejs')
+%>

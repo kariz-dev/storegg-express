@@ -10,7 +10,8 @@ module.exports = {
       const category = await Category.find();
 
       res.render("admin/category/view_category", {
-        title: "Category | Store GG",
+        name: req.session.user.name,
+        title: "Kategori | Store GG",
         category,
         alert,
       });
@@ -23,7 +24,10 @@ module.exports = {
 
   viewCreate: async (req, res) => {
     try {
-      res.render("admin/category/create");
+      res.render("admin/category/create", {
+        name: req.session.user.name,
+        title: "Tambah Kategori | Store GG",
+      });
     } catch (err) {
       req.flash("alertMessage", `${err.message}`);
       req.flash("alertStatus", "danger");
@@ -55,6 +59,8 @@ module.exports = {
       const category = await Category.findOne({ _id: id });
 
       res.render("admin/category/edit", {
+        name: req.session.user.name,
+        title: "Ubah Kategori | Store GG",
         category,
       });
     } catch (err) {

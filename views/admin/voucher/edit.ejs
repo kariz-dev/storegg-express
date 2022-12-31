@@ -144,22 +144,3 @@
 
 <%- include('../../partials/footer.ejs') %> 
 <%- include('../../partials/js.ejs') %>
-
-<script>
-  function readURL(input) {
-    if (input.files && input.files[0]) {
-      const reader = new FileReader();
-
-      reader.onload = function (e) {
-        $("#preview").attr("src", e.target.result);
-        $("#preview").attr("height", "100px");
-      };
-
-      reader.readAsDataURL(input.files[0]);
-    }
-  }
-
-  $("#thumbnail").change(function () {
-    readURL(this);
-  });
-</script>
