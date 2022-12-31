@@ -1,14 +1,12 @@
-const User =  require("./model")
-
-module.exports={
-  viewSignin: async(req, res) => {
+module.exports = {
+  viewSignin: async (req, res) => {
     try {
       const alertMessage = req.flash("alertMessage");
       const alertStatus = req.flash("alertStatus");
 
       const alert = { message: alertMessage, status: alertStatus };
 
-      res.render("admin/category/view_category", {
+      res.render("admin/users/view_signin", {
         title: "Signin | Store GG",
         alert,
       });
@@ -17,5 +15,5 @@ module.exports={
       req.flash("alertStatus", "danger");
       res.redirect("/signin");
     }
-  }
-}
+  },
+};
