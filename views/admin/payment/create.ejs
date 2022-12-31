@@ -1,5 +1,5 @@
-<%- include('../../partials/header.ejs') %>
-<%- include('../../partials/navbar.ejs') %>
+<%- include('../../partials/header.ejs') %> 
+<%- include('../../partials/navbar.ejs') %> 
 <%- include('../../partials/sidebar.ejs') %>
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -33,7 +33,7 @@
                 <!-- general form elements -->
                 <div class="card card-primary">
                   <div class="card-header">
-                    <h3 class="card-title">Form tambah pembayaran</h3>
+                    <h3 class="card-title">Form tambah metode pembayaran</h3>
                   </div>
                   <!-- /.card-header -->
 
@@ -57,18 +57,15 @@
                             data-placeholder="Pilih bank"
                             id="banks"
                             class="form-control select2"
+                            multiple="multiple"
                             style="width: 100%"
                             name="banks"
                             required
                           >
-                            <option disabled>Pilih No Rekening</option>
                             <% banks.forEach(bank => { %>
-                            <option value="<%= bank._id %>"
-                              <% if(bank._id.toString() === payment?.bank?._id.toString()) { %>
-                                selected
-                              <% } %>
-                            >
-                              <%= bank.name %> (<%= bank.bankName %> - <%= bank.noRekening %>)
+                            <option value="<%= bank._id %>">
+                              <%= bank.name %> (<%= bank.bankName %> - <%=
+                              bank.noRekening %>)
                             </option>
                             <% }) %>
                           </select>
@@ -96,5 +93,5 @@
   <!-- /.content -->
 </div>
 
-<%- include('../../partials/footer.ejs') %> 
+<%- include('../../partials/footer.ejs') %>
 <%- include('../../partials/js.ejs') %>
