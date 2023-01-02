@@ -16,26 +16,30 @@
       <tr>
         <td><%= i + 1 %></td>
         <td>
-          <ul class="list-inline">
-            <li class="list-inline-item">
+          <div class="row">
+            <div class="col-3">
               <img
                 width="48px"
                 src="http://localhost:3000/uploads/<%= transaction[i].historyVoucherTopup.thumbnail %>"
                 alt="thumbnail"
               />
-            </li>
-          </ul>
-          <%= transaction[i].historyVoucherTopup?.gameName %>
-          <br />
-          <%= transaction[i].historyVoucherTopup?.category %>
+            </div>
+            <div class="col">
+              <ul class="list-inline">
+                <li><b><%= transaction[i].historyVoucherTopup?.gameName %></b></li>
+                <li><i><%= transaction[i].historyVoucherTopup?.category %></i></li>
+              </ul>
+            </div>
+          </div>
         </td>
         <td>
           <%= transaction[i].historyVoucherTopup?.coinQuantity %> <%=
           transaction[i].historyVoucherTopup?.coinName %>
         </td>
+        <td><%= transaction[i].value %></td>
         <td>
           <% if(transaction[i].status === 'pending') { %>
-          <span class="badge badge-warning text-white">
+          <span class="badge badge-warning text-dark">
             <%= transaction[i].status %>
           </span>
           <% } else if(transaction[i].status === 'success') { %>
@@ -49,15 +53,24 @@
           <% } %>
         </td>
         <td><%= transaction[i]?.player?.name ?? '-' %></td>
-        <td class="d-flex">
+        <td class="d-flex align-items-center">
           <form
-            style="display: inline-block"
-            action="/transaction/delete/<%= transaction[i]._id %>?_method=DELETE"
+            class="mr-2"
+            action="/transaction/status/<%= transaction[i]._id %>?_method=put"
             method="POST"
           >
             <button class="btn btn-sm btn-danger">
-              <i class="fas fa-trash"></i>
-              Hapus
+              <i class="fas fa-times-circle"></i>
+              Decline
+            </button>
+          </form>
+          <form
+            action="/transaction/status/<%= transaction[i]._id %>?_method=put"
+            method="POST"
+          >
+            <button class="btn btn-sm btn-info">
+              <i class="fas fa-check"></i>
+              Accept
             </button>
           </form>
         </td>
